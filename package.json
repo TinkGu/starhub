@@ -39,7 +39,6 @@
     "gulp-clean": "^0.3.2",
     "gulp-replace": "^0.6.1",
     "gulp-util": "^3.0.8",
-    "handlebars-loader": "^1.6.0",
     "html-webpack-plugin": "^2.30.1",
     "jsonfile": "^4.0.0",
     "less": "^2.7.3",
@@ -58,7 +57,8 @@
   },
   "dependencies": {
     "fj-pipe": "^1.1.0",
-    "handlebars": "^4.0.11",
+    "hyperscript": "^2.0.2",
+    "hyperscript-helpers": "^3.0.3",
     "rxjs": "^5.5.5"
   }
 }

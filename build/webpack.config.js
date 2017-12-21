@@ -38,11 +38,6 @@ const baseConf = {
                 loader: 'babel-loader',
                 exclude: /node_modules/
             },
-            {
-                test: /\.(handlebars|hbs)$/,
-                loader: 'handlebars-loader',
-                exclude: /node_modules/
-            },
             genStaticLoader(/\.(png|jpe?g|gif|svg)(\?.*)?$/, 'img'),
             genStaticLoader(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, 'media'),
             genStaticLoader(/\.(woff2?|eot|ttf|otf)(\?.*)?$/, 'fonts')
