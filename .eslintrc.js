@@ -17,6 +17,13 @@ module.exports = {
             modules: true
         }
     },
+    settings: {
+        'import/resolver': {
+            webpack: {
+                config: 'build/webpack.config.js'
+            }
+        }
+    },
     rules: {
         semi: ['warn', 'never'],
         indent: [
