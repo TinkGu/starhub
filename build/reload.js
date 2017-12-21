@@ -12,7 +12,7 @@
         xhr.send(null)
         return (xhr.onload = function () {
             if (last_timestamp !== xhr.responseText) {
-                console.log('reloading')
+                console.log('reloading: ' + last_timestamp)
                 last_timestamp = xhr.responseText
                 return chrome.runtime.reload()
             }
