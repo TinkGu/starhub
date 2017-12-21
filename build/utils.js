@@ -76,7 +76,7 @@ function genStaticLoader(regex, to) {
 const htmlPage = ({ title, filename, chunks, template }) => new HtmlWebpackPlugin({
     title,
     chunks,
-    filename: `./pages/${filename}.html`,
+    filename: `${filename}.html`,
     template: template || dirs.templatePath,
     inject: true,
 })

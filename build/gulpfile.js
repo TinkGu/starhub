@@ -1,6 +1,6 @@
 const path = require('path')
 const gulp = require('gulp')
-const gutil = require('gutil')
+const gutil = require('gulp-util')
 const webpack = require('webpack')
 const runSequence = require('run-sequence')
 const clean = require('gulp-clean')
@@ -63,7 +63,7 @@ gulp.task('clean', () => {
 })
 
 // dev tasks
-gulp.task('webpack', [], (callback) => {
+gulp.task('webpack', (callback) => {
     runWepack(callback)
 })
 
@@ -98,7 +98,11 @@ gulp.task('watch-manifest', [], (callback) => {
     runSequence('manifest', 'reload', callback)
 })
 
-gulp.task('dev', ['static', 'webpack', 'manifest', 'reload'], () => {
+gulp.task('pre-dev', [], callback => {
+    runSequence('static', 'webpack', 'manifest', 'reload', callback)
+})
+
+gulp.task('dev', ['pre-dev'], () => {
     gulp.watch(matchDir([dirs.staticDir]), ['watch-static'])
     gulp.watch(matchDir([dirs.srcDir]), ['watch-webpack'])
     gulp.watch([dirs.manifestPath], ['watch-manifest'])

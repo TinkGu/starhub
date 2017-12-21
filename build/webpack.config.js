@@ -16,18 +16,17 @@ const { joinToSrc } = dirs
 const baseConf = {
     entry: {
         content: joinToSrc('./content'),
-        inject: joinToSrc('./content/inject'),
         background: joinToSrc('./background'),
         reload: path.join(dirs.rootDir, './build/reload.js')
     },
     output: {
         path: dirs.distDir,
         publicPath: '/',
-        filename: 'js/[name].js',
-        chunkFilename: 'js/[id].[name].js?[hash]'
+        filename: '[name].js',
+        chunkFilename: '[id].[name].js?[hash]'
     },
     resolve: {
-        extensions: ['.js', '.json'],
+        extensions: ['.js', '.json', '.hbs', '.handlebars'],
         alias: {
             '@': dirs.srcDir
         }
@@ -39,6 +38,11 @@ const baseConf = {
                 loader: 'babel-loader',
                 exclude: /node_modules/
             },
+            {
+                test: /\.(handlebars|hbs)$/,
+                loader: 'handlebars-loader',
+                exclude: /node_modules/
+            },
             genStaticLoader(/\.(png|jpe?g|gif|svg)(\?.*)?$/, 'img'),
             genStaticLoader(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, 'media'),
             genStaticLoader(/\.(woff2?|eot|ttf|otf)(\?.*)?$/, 'fonts')
@@ -47,11 +51,11 @@ const baseConf = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'background',
-            filename: 'pages/background.html',
+            filename: 'background.html',
             template: dirs.templatePath,
             inject: true,
             chunksSortMode: 'dependency',
-            excludeChunks: env === 'development' ? ['content', 'inject'] : ['content', 'inject', 'reload']
+            excludeChunks: env === 'development' ? ['content'] : ['content', 'reload']
         }),
         new ProgressBarPlugin({ clear: false }),
         new CaseSensitivePlugin(),
@@ -92,13 +96,16 @@ const prodConf = merge(Object.assign({}, baseConf), {
             }
         }),
         new ExtractTextPlugin({
-            filename: 'css/[name].[contenthash].css',
+            filename: '[name].[contenthash].css',
             allChunks: true
         }),
         new webpack.HashedModuleIdsPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            minChunks: ({ resource }) => resource && resource.match(/\.(js|jsx)$/) && resource.indexOf(dirs.npmDir) >= 0
+            minChunks: ({ resource }) =>
+                resource &&
+                resource.match(/\.(js|jsx)$/) &&
+                resource.indexOf(dirs.npmDir) >= 0
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest',

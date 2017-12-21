@@ -17,7 +17,7 @@ module.exports = {
     ],
     background: {
         persistent: false,
-        page: 'pages/background.html'
+        page: 'background.html'
     },
     content_scripts: [
         {
@@ -25,12 +25,12 @@ module.exports = {
                 // '<all_urls>',
                 '*://*.github.com/*'
             ],
-            js: ['js/inject.js'],
-            // css: ['css/inject.css'],
+            js: ['content.js'],
+            // css: ['inject.css'],
             run_at: 'document_end',
             all_frames: true
         }
     ],
     content_security_policy: "script-src 'self' 'unsafe-eval'; object-src 'self'",
-    web_accessible_resources: ['js/content.js']
+    // web_accessible_resources: ['content.js']
 }
