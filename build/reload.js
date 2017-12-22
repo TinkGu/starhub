@@ -14,7 +14,13 @@
             if (last_timestamp !== xhr.responseText) {
                 console.log('reloading: ' + last_timestamp)
                 last_timestamp = xhr.responseText
-                return chrome.runtime.reload()
+                chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                    if (tabs[0]) {
+                        chrome.tabs.reload(tabs[0].id); // Reloads Active Tab
+                    }
+                    chrome.runtime.reload(); // Reloads Extension
+                });
+                // return chrome.runtime.reload()
             }
         })
     };
