@@ -56,6 +56,7 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
+    "chrome-call": "^3.0.0",
     "fj-pipe": "^1.1.0",
     "hyperscript": "^2.0.2",
     "hyperscript-helpers": "^3.0.3",

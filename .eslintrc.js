@@ -39,6 +39,7 @@ module.exports = {
                 'postcss.config.js'
             ]
         }],
+        'function-paren-newline': 0,
     },
     globals: {
         chrome: true
