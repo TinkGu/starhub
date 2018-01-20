@@ -1,8 +1,3 @@
-import h from 'hyperscript'
-import hh from 'hyperscript-helpers'
-
-export const hs = hh(h)
-
 const insert = pos => selector => newEl => {
     const el = document.querySelector(selector)
     if (el.parentNode) {
@@ -14,8 +9,18 @@ const insert = pos => selector => newEl => {
 export const insertBefore = insert('before')
 export const insertAfter = insert('after')
 
-export const setClass = className => el => {
+export const classname = className => el => {
     el.classList.add(className)
+    return el
+}
+
+export const id = x => el => {
+    el.setAttribute('id', x)
+    return el
+}
+
+export const setAttribute = attrs => el => {
+    Object.keys(attrs).forEach(a => el.setAttribute(a, attrs[a]))
     return el
 }
 

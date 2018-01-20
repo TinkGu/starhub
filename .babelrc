@@ -11,6 +11,6 @@
     ],
     "plugins": [
         "transform-runtime",
-        "babel-plugin-transform-decorators-legacy",
+        "babel-plugin-transform-decorators-legacy"
     ]
 }

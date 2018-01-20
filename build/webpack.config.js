@@ -9,6 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const dirs = require('./dirs')
 const { genStaticLoader, genStyleLoaders } = require('./utils')
+const vueLoaderConfig = require('./vueConf')
 
 const env = process.env.NODE_ENV.trim()
 const { joinToSrc } = dirs
@@ -26,13 +27,18 @@ const baseConf = {
         chunkFilename: '[id].[name].js?[hash]'
     },
     resolve: {
-        extensions: ['.js', '.json', '.hbs', '.handlebars'],
+        extensions: ['.js', '.vue', '.json'],
         alias: {
             '@': dirs.srcDir
         }
     },
     module: {
         rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: vueLoaderConfig
+            },
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
