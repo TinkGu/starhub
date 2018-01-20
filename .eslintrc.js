@@ -17,6 +17,9 @@ module.exports = {
             modules: true
         }
     },
+    plugins: [
+        'html'
+    ],
     settings: {
         'import/resolver': {
             webpack: {

@@ -1,3 +1,17 @@
+<template lang="html">
+    <div class="shub-tag">{{name}}</div>
+</template>
+
+<script>
+export default {
+    name: 'Tag',
+    props: {
+        name: String,
+    }
+}
+</script>
+
+<style lang="less">
 .shub-tag {
     box-sizing: content-box;
     margin-right: 8px;
@@ -18,3 +32,4 @@
         background-color: #ddeeff;
     }
 }
+</style>

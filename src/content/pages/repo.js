@@ -4,7 +4,7 @@ import * as $ from '@/utils/dom'
 import App from './RepoApp.vue'
 
 export default function repoApp() {
-    const className = 'starhub-tags-container'
+    const className = 'starhub-repo-app'
     createElement(className)
 
     return new Vue({

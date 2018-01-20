@@ -37,6 +37,7 @@ function runWepack(then) {
 
     compiler.run((err) => {
         if (err) {
+            console.err(err)
             throw new gutil.PluginError('webpack-build', err)
         }
 
