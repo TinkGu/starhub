@@ -62,6 +62,7 @@
   "dependencies": {
     "chrome-call": "^3.0.0",
     "fj-pipe": "^1.1.0",
-    "vue": "^2.5.2"
+    "vue": "^2.5.2",
+    "vue-dom-portal": "^0.1.6"
   }
 }

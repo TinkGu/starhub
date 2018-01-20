@@ -1,26 +1,29 @@
 import Vue from 'vue'
+import VuePortal from 'vue-dom-portal'
 import pipe from 'fj-pipe'
 import * as $ from '@/utils/dom'
 import App from './RepoApp.vue'
 
+Vue.use(VuePortal)
+
 export default function repoApp() {
-    const className = 'starhub-repo-app'
-    createElement(className)
+    const id = 'starhub-repo-app'
+    createElement(id)
 
     return new Vue({
-        el: `.${className}`,
+        el: `#${id}`,
         render: h => h(App),
     })
 }
 
-function createElement(className) {
+function createElement(id) {
     const selector = '.repohead-details-container'
     const $target = document.querySelector(selector)
     let $result = null
     if ($target) {
         const $el = document.createElement('div')
         $result = pipe(
-            $.classname(className),
+            $.id(id),
             $.insertBefore(selector)
         )($el)
     }
