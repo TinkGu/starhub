@@ -44,9 +44,22 @@ const baseConf = {
                 loader: 'babel-loader',
                 exclude: /node_modules/
             },
-            genStaticLoader(/\.(png|jpe?g|gif|svg)(\?.*)?$/, 'img'),
+            genStaticLoader(/\.(png|jpe?g|gif)(\?.*)?$/, 'img'),
             genStaticLoader(/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, 'media'),
-            genStaticLoader(/\.(woff2?|eot|ttf|otf)(\?.*)?$/, 'fonts')
+            genStaticLoader(/\.(woff2?|eot|ttf|otf)(\?.*)?$/, 'fonts'),
+            {
+                test: /\.svg$/,
+                loader: 'vue-svg-loader',
+                options: {
+                    // optional [svgo](https://github.com/svg/svgo) options
+                    svgo: {
+                        plugins: [
+                            { removeDoctype: true },
+                            { removeComments: true }
+                        ]
+                    }
+                }
+            },
         ]
     },
     plugins: [

@@ -1,6 +1,6 @@
 {
   "name": "starhub",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "manage your GitHub stars",
   "author": "tlwrite@126.com",
   "license": "MIT",
@@ -54,6 +54,7 @@
     "url-loader": "^0.6.2",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
+    "vue-svg-loader": "^0.4.0",
     "vue-template-compiler": "^2.5.2",
     "webpack": "^3.8.1",
     "webpack-merge": "^4.1.0"
