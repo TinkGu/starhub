@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VuePortal from 'vue-dom-portal'
 import pipe from 'fj-pipe'
 import * as $ from '@/utils/dom'
-import App from './RepoApp.vue'
+import App from './RepoApp'
 
 Vue.use(VuePortal)
 

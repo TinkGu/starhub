@@ -1,5 +1,5 @@
 <template lang="html">
-    <div class="shub-tag">{{name}}</div>
+    <div class="shub-tag" :class="{ 'shub-active': selected }">{{name}}</div>
 </template>
 
 <script>
@@ -7,6 +7,10 @@ export default {
     name: 'Tag',
     props: {
         name: String,
+        selected: {
+            type: Boolean,
+            default: false,
+        },
     }
 }
 </script>
@@ -30,6 +34,12 @@ export default {
 
     &:hover {
         background-color: #ddeeff;
+    }
+
+    &.shub-active {
+        background-color: #1988e0;
+        color: #fff;
+        border: solid 1px #1988e0;
     }
 }
 </style>

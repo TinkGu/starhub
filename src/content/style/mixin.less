@@ -1,0 +1,15 @@
+// around
+.shadow-base(@left: 2px, @top: 2px, @blur: 4px, @color: rgba(0,0,0,0.1)) {
+    box-shadow: @left @top @blur @color;
+}
+
+.shadow-dark(@left: 2px, @top: 2px, @blur: 4px) {
+    .shadow-base(@left, @top, @blur, rgba(0,0,0,0.16));
+}
+
+.ellipsis() {
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
