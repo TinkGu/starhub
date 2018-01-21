@@ -42,6 +42,9 @@ module.exports = {
                 'postcss.config.js'
             ]
         }],
+        'import/extensions': ['error', {
+            vue: 'never',
+        }],
         'function-paren-newline': 0,
     },
     globals: {

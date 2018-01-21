@@ -33,14 +33,21 @@ const matchDir = _dirs => _dirs.map(x => `${x}/**/*.*`)
 // }
 
 function runWepack(then) {
-    const compiler = webpack(webpackConfig)
-
-    compiler.run((err) => {
+    webpack(webpackConfig, (err, stats) => {
         if (err) {
-            console.err(err)
-            throw new gutil.PluginError('webpack-build', err)
+            throw new gutil.PluginError('webpack', err)
         }
 
+        const jsonStats = stats ? stats.toJson() || {} : {}
+        const errors = jsonStats.errors || []
+
+        if (errors.length) {
+            const errorMessage = errors.reduce((resultMessage, nextError) => {
+                return resultMessage + nextError.toString()
+            }, '')
+
+            console.warn(errorMessage)
+        }
         then()
     })
 }
