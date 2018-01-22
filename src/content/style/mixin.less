@@ -7,9 +7,14 @@
     .shadow-base(@left, @top, @blur, rgba(0,0,0,0.16));
 }
 
+.shadow-overlay() {
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.14), 0 20px 90px 0 rgba(0,0,0,0.4);
+}
+
 .ellipsis() {
   width: auto;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  word-wrap: break-word;
 }

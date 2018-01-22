@@ -11,31 +11,21 @@
             :desc="desc"
         />
 
-        <section class="tags-box">
-            <h2 class="section-title">Tags</h2>
-            <input type="text">
-            <div class="tags shub-active">
-                <Tag
-                    class="shub-tag-in-modal"
-                    v-for="tag in tags" :key="tag"
-                    :name="tag"
-                />
-            </div>
-        </section>
+        <TagInputBox :tags="tags" />
     </div>
 </template>
 
 <script>
 import CloseIcon from '@/../static/svg/close.svg'
-import Tag from '../Tag'
 import DescBox from './DescBox'
+import TagInputBox from './TagInputBox'
 
 export default {
     name: 'TagModal',
     components: {
-        Tag,
-        DescBox,
         CloseIcon,
+        DescBox,
+        TagInputBox,
     },
     props: {
         desc: {
@@ -100,21 +90,5 @@ export default {
     margin: auto;
     padding: 3px;
     height: 100%;
-}
-
-.tags-box {
-    .modal-box();
-    margin: 20px 0;
-}
-
-.tags {
-    display: flex;
-    padding-bottom: 4px;
-    flex-wrap: wrap;
-}
-
-.shub-tag-in-modal {
-    margin-top: 10px;
-    cursor: pointer;
 }
 </style>
