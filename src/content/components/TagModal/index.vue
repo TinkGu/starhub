@@ -2,13 +2,13 @@
     <div id="shub-tag-modal">
         <header class="modal-header">
             <h1 class="repo-name">Spark/Spark</h1>
-            <!-- 关闭  -->
+            <div class="close-model-btn" @click="onClose">
+                <CloseIcon class="close-icon" />
+            </div>
         </header>
 
         <DescBox
             :desc="desc"
-            :is-editing="isEditingDesc"
-            :on-toggle-edit="toggleEditDesc"
         />
 
         <section class="tags-box">
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import CloseIcon from '@/../static/svg/close.svg'
 import Tag from '../Tag'
 import DescBox from './DescBox'
 
@@ -34,6 +35,7 @@ export default {
     components: {
         Tag,
         DescBox,
+        CloseIcon,
     },
     props: {
         desc: {
@@ -41,13 +43,10 @@ export default {
             default: '',
         },
         tags: Array,
+        onClose: Function,
     },
     data() {
         return {
-            isEditingDesc: false,
-            toggleEditDesc: () => {
-                this.isEditingDesc = !this.isEditingDesc
-            }
         }
     },
 }
@@ -76,12 +75,31 @@ export default {
     .modal-box();
     .modal-line();
 
+    display: flex;
+    justify-content: space-between;
+
     .repo-name {
         margin: 0;
         padding: 10px 0;
-        font-size: 24px;
-        font-weight: bold;
+        font-size: 18px;
     }
+}
+
+.close-model-btn {
+    display: flex;
+    margin-top: 5px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    border: solid 1px #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.close-icon {
+    margin: auto;
+    padding: 3px;
+    height: 100%;
 }
 
 .tags-box {

@@ -43,17 +43,18 @@ export default {
             type: String,
             default: '',
         },
-        isEditing: {
-            type: Boolean,
-            default: false,
-        },
-        onToggleEdit: Function,
     },
     data() {
         return {
+            isEditing: false,
             descInput: this.desc,
         }
     },
+    methods: {
+        onToggleEdit() {
+            this.isEditing = !this.isEditing
+        }
+    }
 }
 </script>
 
