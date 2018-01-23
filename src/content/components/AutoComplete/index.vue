@@ -10,7 +10,7 @@
             >
         </div>
 
-        <div class="shub-ac-menu">
+        <div class="shub-ac-menu" v-if="isExpanding">
             <div v-for="item, i in internalItems"
                 class="shub-ac-menu-item"
                 :class="{'shub-active': i === cursor}"
@@ -68,7 +68,8 @@ export default {
         inputChange() {
             this.isShowingList = true
             this.cursor = -1
-            this.onSelectItem(null, 'inputChange')
+            this.internalItems = elasticSearch(this.items, this.searchText)
+            this.$emit('input', null)
             this.waitFor(this.updateItems)
             this.$emit('change', this.searchText)
         },
@@ -101,8 +102,6 @@ export default {
                 this.internalItems = [item]
                 this.searchText = this.getLabel(item)
                 this.$emit('item-selected', item)
-            } else {
-                this.setItems(this.items)
             }
             this.$emit('input', item)
         },
@@ -167,6 +166,18 @@ export default {
     },
 }
 
+function elasticSearch(list, input) {
+    if (!input) { return list }
+    return list.filter(x => typeof x === 'string' && x.includes(input))
+        .reduce((res, x) => {
+            if (x.startsWith(input)) {
+                return [x].concat(res)
+            } else {
+                return res.concat(x)
+            }
+        }, [])
+}
+
 </script>
 
 <style lang="less" scoped>
@@ -182,7 +193,6 @@ export default {
     margin-left: 4px;
     padding: 10px 0;
     width: 97%;
-    border: solid 1px #ebebeb;
     border-radius: 4px;
     background: #f1f8ff;
 
@@ -196,6 +206,7 @@ export default {
         font-size: 12px;
         color: #1988e0;
         cursor: pointer;
+        opacity: 0.8;
 
         &.shub-active {
             background-color: #1988e0;
