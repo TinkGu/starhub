@@ -16,6 +16,8 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/content/style/variables.less";
+
 .shub-tag {
     box-sizing: content-box;
     margin-right: 8px;
@@ -23,23 +25,23 @@ export default {
     min-width: 20px;
     height: 20px;
     line-height: 20px;
-    background: #f1f8ff;
-    border: solid 1px #c8e1ff;
+    background: @primary-light;
+    border: solid 1px @bd-primary;
     border-radius: 3px;
     font-size: 12px;
     text-align: center;
     white-space: nowrap;
     word-wrap: break-word;
-    color: #1988e0;
+    color: @primary-dark;
 
     &:hover {
-        background-color: #ddeeff;
+        background-color: @primary-base;
     }
 
     &.shub-active {
-        background-color: #1988e0;
+        background-color: @primary-dark;
         color: #fff;
-        border: solid 1px #1988e0;
+        border: solid 1px @primary-dark;
     }
 }
 </style>

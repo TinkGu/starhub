@@ -59,6 +59,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "~@/content/style/variables.less";
 @import "./tag-modal.less";
 
 .section-title {
@@ -105,6 +106,18 @@ export default {
 
 .desc-text {
     font-size: 12px;
+    color: @text-base;
     cursor: pointer;
+}
+
+.desc-save-btn {
+    padding-left: 3px;
+    width: 50px;
+    font-size: 14px;
+    cursor: pointer;
+
+    &:hover {
+        color: @text-dark;
+    }
 }
 </style>

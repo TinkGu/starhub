@@ -43,13 +43,19 @@ export default {
 </script>
 
 <style lang="less">
+@import "~@/content/style/variables.less";
+
 #shub-tag-modal {
     padding: 0;
-    color: #586069;
+    color: @text-light;
 
     input, textarea {
         width: 100%;
+        border: solid 1px @bd-base;
         outline: none;
+        font-size: 12px;
+        line-height: 24px;
+        color: @text-base;
     }
 
     textarea {

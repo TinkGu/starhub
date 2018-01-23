@@ -182,6 +182,7 @@ function elasticSearch(list, input) {
 
 <style lang="less" scoped>
 @import "~@/content/style/mixin.less";
+@import "~@/content/style/variables.less";
 
 .shub-ac {
     position: relative;
@@ -194,7 +195,7 @@ function elasticSearch(list, input) {
     padding: 10px 0;
     width: 97%;
     border-radius: 4px;
-    background: #f1f8ff;
+    background: @primary-light;
 
     .shadow-overlay();
 
@@ -202,14 +203,14 @@ function elasticSearch(list, input) {
         .ellipsis();
         padding: 5px 15px;
         width: 100%;
-        background: #f1f8ff;
+        background: @primary-light;
         font-size: 12px;
-        color: #1988e0;
+        color: @primary-dark;
         cursor: pointer;
         opacity: 0.8;
 
         &.shub-active {
-            background-color: #1988e0;
+            background-color: @primary-dark;
             color: #fff;
         }
     }

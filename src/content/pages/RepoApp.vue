@@ -5,11 +5,12 @@
                 <AddIcon class="shub-add-icon" />
             </div>
         </TagBox>
+        <div class="shub-repo-desc">{{desc}}</div>
         <div v-dom-portal class="shub-tag-modal" v-show="isEditing">
             <TagModal
                 v-if="isEditing"
                 :tags="tags"
-                :desc="'我们一家人'"
+                :desc="desc"
                 :on-close="() => toggleModal(false)"
             />
         </div>
@@ -27,6 +28,7 @@ export default {
         return {
             isEditing: false,
             tags: ['browser', 'Node', 'gta', 'angular', 'React', 'app'],
+            desc: '我们一家人',
             toggleModal: (flag) => {
                 this.isEditing = flag
             }
@@ -47,9 +49,18 @@ export default {
 
 <style lang="less" scoped>
 @import "~@/content/style/mixin.less";
+@import "~@/content/style/variables.less";
 
 #starhub-repo-app {
     padding: 20px 0;
+}
+
+.shub-repo-desc {
+    margin-top: 20px;
+    padding: 0 25px;
+    max-width: 600px;
+    font-size: 12px;
+    color: @text-base;
 }
 
 .shub-tag-modal {
@@ -65,7 +76,7 @@ export default {
     width: @w;
     background: #fff;
     border-radius: 4px;
-    border: solid 1px #ebebeb;
+    border: solid 1px @bd-base;
 }
 
 .shub-add-tag-btn {
