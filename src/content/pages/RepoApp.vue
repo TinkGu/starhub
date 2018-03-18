@@ -1,37 +1,52 @@
 <template>
     <div id="starhub-repo-app">
-        <TagBox :tags="tags" >
+        <TagBox :tags="repo.tags" >
             <div class="shub-add-tag-btn" @click="openModal">
-                <AddIcon class="shub-add-icon" />
+                <AddIcon class="shub-add-icon"/>
             </div>
         </TagBox>
-        <div class="shub-repo-desc">{{desc}}</div>
+        <div class="container">
+            <div class="shub-repo-desc">{{repo.desc}}</div>
+        </div>
         <div v-dom-portal class="shub-tag-modal" v-show="isEditing">
             <TagModal
                 v-if="isEditing"
+                :repo="repo"
                 :tags="tags"
-                :desc="desc"
-                :on-close="() => toggleModal(false)"
+                :update-repo="updateRepo"
+                :on-close="closeModal"
+                :on-add-tag="addTag"
+                :on-delete-tag="deleteTag"
             />
         </div>
     </div>
 </template>
 
 <script>
+import store from '@/store'
+import crs from '@/chromeStorage'
+import { getRepoNameFromUrl } from '@/utils/github'
 import TagBox from '@/content/components/TagBox'
 import TagModal from '@/content/components/TagModal'
 import AddIcon from '@/../static/svg/add.svg'
 
 export default {
-    name: 'App',
+    name: 'RepoApp',
+    store,
     data() {
         return {
+            repo: {
+                name: '',
+                desc: '',
+                tags: [],
+            },
             isEditing: false,
-            tags: ['browser', 'Node', 'gta', 'angular', 'React', 'app'],
-            desc: '我们一家人',
-            toggleModal: (flag) => {
-                this.isEditing = flag
-            }
+            hasCreated: false,
+        }
+    },
+    computed: {
+        tags() {
+            return this.$store.state.tags
         }
     },
     components: {
@@ -39,10 +54,57 @@ export default {
         TagModal,
         AddIcon,
     },
+    // eslint-disable-next-line
+    created: async function() {
+        this.$store.dispatch('fetchTags')
+        const reponame = getRepoNameFromUrl()
+        this.repo.name = reponame
+        if (reponame) {
+            const repo = await crs.models.repo.find({ name: reponame })
+            if (repo) {
+                this.repo = repo
+                this.hasCreated = true
+            }
+        }
+    },
     methods: {
-        openModal() {
-            this.toggleModal(true)
+        async openModal() {
+            if (!this.hasCreated) {
+                this.repo = await crs.models.repo.create({ name: this.repo.name, tags: [] })
+            }
+            this.isEditing = true
         },
+        closeModal() {
+            this.isEditing = false
+        },
+        async updateRepo(setter) {
+            await crs.models.repo.update({
+                name: this.repo.name,
+            }, setter)
+
+            this.repo = {
+                ...this.repo,
+                ...setter,
+            }
+        },
+        async addTag(tag) {
+            const tagDoc = await this.$store.dispatch('maybeCreateTag', tag)
+            if (!this.isTagInRepo(tagDoc)) {
+                await this.updateRepo({
+                    tags: this.repo.tags.concat(tagDoc)
+                })
+            }
+        },
+        async deleteTag(tag) {
+            if (this.isTagInRepo(tag)) {
+                await this.updateRepo({
+                    tags: this.repo.tags.filter(x => x.id !== tag.id)
+                })
+            }
+        },
+        isTagInRepo(tag) {
+            return this.repo.tags.some(x => x.id === tag.id)
+        }
     },
 }
 </script>
@@ -56,8 +118,8 @@ export default {
 }
 
 .shub-repo-desc {
-    margin-top: 20px;
-    padding: 0 25px;
+    margin-top: 10px;
+    padding: 0 5px;
     max-width: 600px;
     font-size: 12px;
     color: @text-base;
@@ -83,6 +145,7 @@ export default {
     box-sizing: content-box;
     display: flex;
     padding: 0 5px;
+    height: 20px;
     background: #fff;
     border: solid 1px #ccc;
     border-radius: 3px;

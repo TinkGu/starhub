@@ -1,15 +1,44 @@
 <template lang="html">
-    <div class="shub-tag" :class="{ 'shub-active': selected }">{{name}}</div>
+    <div
+        class="shub-tag"
+        :class="{ 'shub-active': selected }"
+        @click="onClick"
+    >
+        {{tag.name}}
+    </div>
 </template>
 
 <script>
 export default {
     name: 'Tag',
     props: {
-        name: String,
+        tag: {
+            type: Object,
+            default: {
+                name: '',
+            }
+        },
         selected: {
             type: Boolean,
             default: false,
+        },
+        reactive: Boolean,
+        onDelete: Function,
+        onAdd: Function,
+    },
+    methods: {
+        onClick() {
+            if (!this.reactive) {
+                return
+            }
+
+            if (this.selected && typeof this.onDelete === 'function') {
+                return this.onDelete(this.tag)
+            }
+
+            if (!this.selected && typeof this.onAdd === 'function') {
+                return this.onAdd(this.tag)
+            }
         },
     }
 }

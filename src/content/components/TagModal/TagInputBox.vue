@@ -4,13 +4,19 @@
         <div class="tag-input-box">
             <AutoComplete
                 :items="tags"
+                :on-complete="onAddTag"
             />
         </div>
-        <div class="tags shub-active">
+        <div class="tags">
             <Tag
                 class="shub-tag-in-modal"
-                v-for="tag in tags" :key="tag"
-                :name="tag"
+                v-for="tag in resortedTags"
+                :key="tag.id"
+                :tag="tag"
+                reactive
+                :selected="tag.selected"
+                :on-delete="onDeleteTag"
+                :on-add="onAddTag"
             />
         </div>
     </section>
@@ -28,7 +34,31 @@ export default {
     },
     props: {
         tags: Array,
+        repoTags: Array,
+        onAddTag: Function,
+        onDeleteTag: Function,
     },
+    computed: {
+        resortedTags() {
+            const resorted = []
+            const repoTagsHashMap = {}
+            this.repoTags.forEach(x => {
+                repoTagsHashMap[x.id] = true
+            })
+
+            this.tags.forEach(tag => {
+                if (repoTagsHashMap[tag.id]) {
+                    resorted.unshift({
+                        ...tag,
+                        selected: true,
+                    })
+                } else {
+                    resorted.push(tag)
+                }
+            })
+            return resorted
+        }
+    }
 }
 </script>
 

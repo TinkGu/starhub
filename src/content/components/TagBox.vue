@@ -1,6 +1,6 @@
 <template lang="html">
     <div class="shub-tagbox container">
-        <Tag v-for="tag in tags" :key="tag" :name="tag" />
+        <Tag v-for="tag in tags" :key="tag.id" :tag="tag" />
         <slot></slot>
     </div>
 </template>

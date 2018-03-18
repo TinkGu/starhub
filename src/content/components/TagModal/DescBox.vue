@@ -4,21 +4,25 @@
             <textarea
                 placeholder="edit description"
                 v-model.trim="descInput"
+                v-focus="isEditing"
             >
             </textarea>
-            <div class="desc-save-btn">save</div>
+            <div class="desc-btn-group">
+                <div class="desc-save-btn" @click="onSave">save</div>
+                <div class="desc-cancel-btn" @click="onCancel">cancel</div>
+            </div>
         </div>
 
         <div
             class="desc-box-placeholder"
             v-else-if="!desc"
-            @click="onToggleEdit"
+            @click="onEdit"
         >
             <TextIcon class="text-icon" />
             <div>Edit Description</div>
         </div>
 
-        <div class="desc-box-text" @click="onToggleEdit" v-else>
+        <div class="desc-box-text" @click="onEdit" v-else>
             <header class="desc-box-text-header">
                 <h2 class="section-title">Description</h2>
                 <span class="desc-edit-btn">Edit</span>
@@ -31,6 +35,7 @@
 </template>
 
 <script>
+import { focus } from 'vue-focus'
 import TextIcon from '@/../static/svg/left-alignment.svg'
 
 export default {
@@ -38,11 +43,13 @@ export default {
     components: {
         TextIcon,
     },
+    directives: { focus },
     props: {
         desc: {
             type: String,
             default: '',
         },
+        updateRepo: Function,
     },
     data() {
         return {
@@ -51,9 +58,22 @@ export default {
         }
     },
     methods: {
-        onToggleEdit() {
-            this.isEditing = !this.isEditing
-        }
+        onEdit() {
+            this.isEditing = true
+        },
+        onCancel() {
+            this.isEditing = false
+        },
+        async onSave() {
+            if (this.descInput.trim() === '') {
+                return
+            }
+
+            await this.updateRepo({
+                desc: this.descInput,
+            })
+            this.isEditing = false
+        },
     }
 }
 </script>
@@ -110,7 +130,12 @@ export default {
     cursor: pointer;
 }
 
-.desc-save-btn {
+.desc-btn-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.desc-save-btn, .desc-cancel-btn {
     padding-left: 3px;
     width: 50px;
     font-size: 14px;
@@ -118,6 +143,7 @@ export default {
 
     &:hover {
         color: @text-dark;
+        text-shadow: 1px 0px 2px #ccc;
     }
 }
 </style>

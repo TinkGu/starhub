@@ -17,7 +17,7 @@
                 @click="onClickItem(item)"
                 @mouseover="cursor = i"
              >
-                 <Item :item="item" :searchText="searchText" />
+                 <Item :item="item.name" :searchText="searchText" />
              </div>
         </div>
     </div>
@@ -45,6 +45,7 @@ export default {
             type: Boolean,
             default: false
         },
+        onComplete: Function,
     },
     data() {
         return {
@@ -64,7 +65,7 @@ export default {
         },
     },
     methods: {
-        getLabel: item => item,
+        getLabel: item => item.name,
         inputChange() {
             this.isShowingList = true
             this.cursor = -1
@@ -72,15 +73,6 @@ export default {
             this.$emit('input', null)
             this.waitFor(this.updateItems)
             this.$emit('change', this.searchText)
-        },
-
-        waitFor(cb) {
-            clearTimeout(this.waitTimeout)
-            this.waitTimeout = setTimeout(cb, this.wait)
-        },
-
-        updateItems() {
-            this.$emit('update-items', this.searchText)
         },
 
         focus() {
@@ -106,16 +98,6 @@ export default {
             this.$emit('input', item)
         },
 
-        setItems(items) {
-            this.internalItems = items || []
-        },
-
-        isSelectedValue(value) {
-            return (
-                this.internalItems.length === 1 && value === this.internalItems[0]
-            )
-        },
-
         keyUp() {
             if (this.cursor > -1) {
                 this.setCursor(this.cursor - 1)
@@ -129,10 +111,30 @@ export default {
         },
 
         keyEnter() {
+            // 如果游标未定位，可以直接 onComplete
+            if (this.cursor === -1 || !this.isShowingList) {
+                this.onComplete({
+                    name: this.searchText.trim(),
+                })
+                this.isShowingList = false
+                this.searchText = ''
+            }
+
+            // 下拉选项展示中 并且 游标选中了某个选项，就返回当前 item 到输入框
             if (this.isShowingList && this.internalItems[this.cursor]) {
                 this.onSelectItem(this.internalItems[this.cursor])
                 this.isShowingList = false
             }
+        },
+
+        // ------------ internal methods ------------
+
+        updateItems() {
+            this.$emit('update-items', this.searchText)
+        },
+
+        setItems(items) {
+            this.internalItems = items || []
         },
 
         setCursor(nextCursor) {
@@ -144,10 +146,21 @@ export default {
             )
         },
 
-        itemView(item) {
-            if (item && item.scrollIntoView) {
-                item.scrollIntoView(false)
+        isSelectedValue(value) {
+            return (
+                this.internalItems.length === 1 && value === this.internalItems[0]
+            )
+        },
+
+        itemView(el) {
+            if (el && el.scrollIntoView) {
+                el.scrollIntoView(false)
             }
+        },
+
+        waitFor(cb) {
+            clearTimeout(this.waitTimeout)
+            this.waitTimeout = setTimeout(cb, this.wait)
         },
     },
     created() {
@@ -168,9 +181,10 @@ export default {
 
 function elasticSearch(list, input) {
     if (!input) { return list }
-    return list.filter(x => typeof x === 'string' && x.includes(input))
+    return list.filter(x => typeof x.name === 'string' && x.name.includes(input))
         .reduce((res, x) => {
-            if (x.startsWith(input)) {
+            // 排序：以 input 开头的优先
+            if (x.name.startsWith(input)) {
                 return [x].concat(res)
             } else {
                 return res.concat(x)

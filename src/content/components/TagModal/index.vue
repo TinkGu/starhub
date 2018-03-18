@@ -1,17 +1,19 @@
 <template lang="html">
     <div id="shub-tag-modal">
         <header class="modal-header">
-            <h1 class="repo-name">Spark/Spark</h1>
+            <h1 class="repo-name">{{repo.name}}</h1>
             <div class="close-model-btn" @click="onClose">
                 <CloseIcon class="close-icon" />
             </div>
         </header>
 
-        <DescBox
-            :desc="desc"
+        <DescBox :desc="repo.desc" :update-repo="updateRepo" />
+        <TagInputBox
+            :tags="tags"
+            :repo-tags="repo.tags"
+            :on-add-tag="onAddTag"
+            :on-delete-tag="onDeleteTag"
         />
-
-        <TagInputBox :tags="tags" />
     </div>
 </template>
 
@@ -28,16 +30,19 @@ export default {
         TagInputBox,
     },
     props: {
-        desc: {
-            type: String,
-            default: '',
+        repo: {
+            type: Object,
+            default: {
+                name: '',
+                desc: '',
+                tags: [],
+            }
         },
         tags: Array,
         onClose: Function,
-    },
-    data() {
-        return {
-        }
+        updateRepo: Function,
+        onAddTag: Function,
+        onDeleteTag: Function,
     },
 }
 </script>
