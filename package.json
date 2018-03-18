@@ -61,8 +61,12 @@
   },
   "dependencies": {
     "chrome-call": "^3.0.0",
+    "crx-orm": "^1.1.0",
     "fj-pipe": "^1.1.0",
     "vue": "^2.5.2",
-    "vue-dom-portal": "^0.1.6"
+    "vue-async-computed": "^3.3.1",
+    "vue-dom-portal": "^0.1.6",
+    "vue-focus": "^2.1.0",
+    "vuex": "^3.0.1"
   }
 }
